@@ -1,0 +1,8 @@
+#!/bin/bash
+set -euxo pipefail
+dnf install -y nginx openssh-server
+cat > /usr/share/nginx/html/index.html <<'HTML'
+<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>AWS Failover Demo</title><style>body{background:#0b1220;color:white;font-family:Arial;text-align:center;padding:14vh 12px}h1{font-size:3rem}.pill{display:inline-block;background:#0f766e;padding:12px 20px;border-radius:30px}</style></head><body><h1>SERVER ${server_number}</h1><p class="pill">Healthy • Serving traffic</p><p>Terraform + AWS Application Load Balancer</p></body></html>
+HTML
+systemctl enable --now nginx
+systemctl enable --now sshd
